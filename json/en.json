@@ -13,6 +13,9 @@
     "badge": "🔒 Your data stays on your computer",
     "title": "Your data stays private",
     "body": "Everything you type into this tool — your questions, answers, and categories — stays only on your computer, inside your browser. Nothing is sent to a server, stored online, or shared with anyone. This tool works entirely on your own machine, like software installed locally.",
+    "check1": "Your questions and answers never leave your computer",
+    "check2": "No account, no login, no server involved",
+    "check3": "The XML file is generated and saved directly on your machine",
     "close": "Got it"
   },
   "categories": {

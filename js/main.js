@@ -44,8 +44,14 @@ const initLangToggle = () => {
   if (btn) {
     btn.addEventListener('click', () => {
       I18n.toggle();
-      // Update button label after toggle (the new lang label is in t('common.language'))
       btn.textContent = I18n.t('common.language');
+      // Re-populate checklist items after language switch
+      setTimeout(() => {
+        [1, 2, 3].forEach(i => {
+          const el = document.getElementById(`privacy-check-${i}`);
+          if (el) el.textContent = I18n.t(`privacy.check${i}`);
+        });
+      }, 50);
     });
   }
 };
@@ -71,6 +77,15 @@ const initPrivacyNotice = () => {
   if (learnMoreBtn) learnMoreBtn.addEventListener('click', openModal);
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
   if (overlay) overlay.addEventListener('click', closeModal);
+
+  // Populate checklist items
+  const populateChecklist = () => {
+    [1, 2, 3].forEach(i => {
+      const el = document.getElementById(`privacy-check-${i}`);
+      if (el) el.textContent = I18n.t(`privacy.check${i}`);
+    });
+  };
+  populateChecklist();
 
   // Keyboard: close on Escape
   document.addEventListener('keydown', (e) => {

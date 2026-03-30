@@ -13,6 +13,9 @@
     "badge": "🔒 Vos données restent sur votre ordinateur",
     "title": "Confidentialité de vos données",
     "body": "Tout ce que vous saisissez dans cet outil — vos questions, vos réponses, vos catégories — reste uniquement sur votre ordinateur, dans votre navigateur. Aucune donnée n'est envoyée à un serveur, stockée en ligne ou transmise à qui que ce soit. Cet outil fonctionne entièrement en local, comme un logiciel installé sur votre machine.",
+    "check1": "Vos questions et réponses ne quittent jamais votre ordinateur",
+    "check2": "Aucun compte, aucune connexion, aucun serveur impliqué",
+    "check3": "Le fichier XML est généré et enregistré directement sur votre machine",
     "close": "Compris"
   },
   "categories": {
