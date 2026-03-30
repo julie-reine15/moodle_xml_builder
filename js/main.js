@@ -74,7 +74,10 @@ const initPrivacyNotice = () => {
     overlay.setAttribute('hidden', '');
   };
 
+  const footerPrivacyLink = document.getElementById('footer-privacy-link');
+
   if (learnMoreBtn) learnMoreBtn.addEventListener('click', openModal);
+  if (footerPrivacyLink) footerPrivacyLink.addEventListener('click', openModal);
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
   if (overlay) overlay.addEventListener('click', closeModal);
 
