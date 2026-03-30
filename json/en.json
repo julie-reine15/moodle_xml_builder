@@ -1,0 +1,154 @@
+{
+  "app": {
+    "title": "Moodle Question Bank Builder",
+    "subtitle": "Create your Moodle XML file easily — no installation required"
+  },
+  "nav": {
+    "categories": "Categories",
+    "questions": "Questions",
+    "preview": "Preview",
+    "export": "Export XML"
+  },
+  "privacy": {
+    "badge": "🔒 Your data stays on your computer",
+    "title": "Your data stays private",
+    "body": "Everything you type into this tool — your questions, answers, and categories — stays only on your computer, inside your browser. Nothing is sent to a server, stored online, or shared with anyone. This tool works entirely on your own machine, like software installed locally.",
+    "close": "Got it"
+  },
+  "categories": {
+    "title": "Question Categories",
+    "description": "Organise your questions into categories. Moodle will use these to sort your questions in the question bank.",
+    "add": "Add a category",
+    "namePlaceholder": "Category name (e.g. Chapter 1 – Vocabulary)",
+    "descPlaceholder": "Optional description",
+    "empty": "No categories yet. Start by adding one.",
+    "defaultName": "Uncategorised",
+    "deleteConfirm": "Delete this category? Questions in it will be moved to 'Uncategorised'.",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save"
+  },
+  "questions": {
+    "title": "Questions",
+    "add": "Add a question",
+    "type": "Question type",
+    "category": "Category",
+    "name": "Question title (internal)",
+    "namePlaceholder": "e.g. Q1 – Vocabulary comprehension",
+    "questionText": "Question text",
+    "defaultMark": "Default mark",
+    "generalFeedback": "General feedback (optional)",
+    "empty": "No questions yet. Click 'Add a question' to get started.",
+    "edit": "Edit",
+    "delete": "Delete",
+    "duplicate": "Duplicate",
+    "save": "Save question",
+    "cancel": "Cancel",
+    "deleteConfirm": "Permanently delete this question?",
+    "types": {
+      "multichoice": "Multiple choice (single answer)",
+      "multichoicemulti": "Multiple choice (multiple answers)",
+      "truefalse": "True / False",
+      "shortanswer": "Short answer",
+      "essay": "Essay",
+      "matching": "Matching",
+      "numerical": "Numerical",
+      "calculated": "Calculated",
+      "ddwtos": "Drag and drop into text",
+      "gapselect": "Select missing words",
+      "ordering": "Ordering",
+      "wordselect": "Word select"
+    }
+  },
+  "multichoice": {
+    "answers": "Answers",
+    "addAnswer": "Add an answer",
+    "answerText": "Answer text",
+    "grade": "Grade (%)",
+    "feedback": "Feedback for this answer (optional)",
+    "shuffle": "Shuffle answers",
+    "single": "Single correct answer",
+    "correctHint": "Set 100% for the correct answer, 0% for incorrect ones."
+  },
+  "truefalse": {
+    "correctAnswer": "Correct answer",
+    "true": "True",
+    "false": "False",
+    "feedbackTrue": "Feedback if student answers True",
+    "feedbackFalse": "Feedback if student answers False"
+  },
+  "shortanswer": {
+    "answers": "Accepted answers",
+    "addAnswer": "Add an accepted answer",
+    "answerText": "Accepted answer",
+    "grade": "Grade (%)",
+    "caseSensitive": "Case sensitive",
+    "hint": "You can use * as a wildcard (e.g. *hello*)"
+  },
+  "essay": {
+    "responseFormat": "Expected response format",
+    "responseFormats": {
+      "editor": "Rich text editor",
+      "editorfilepicker": "Editor + file attachments",
+      "plain": "Plain text",
+      "monospaced": "Monospaced font",
+      "noinline": "No inline text"
+    },
+    "lines": "Number of lines",
+    "attachments": "Allowed attachments",
+    "graderInfo": "Instructions for the grader (optional)"
+  },
+  "matching": {
+    "pairs": "Matching pairs",
+    "addPair": "Add a pair",
+    "question": "Question / Term",
+    "answer": "Answer / Definition",
+    "shuffle": "Shuffle answers"
+  },
+  "numerical": {
+    "answer": "Correct numerical answer",
+    "tolerance": "Tolerance (±)",
+    "unit": "Unit (optional)",
+    "addAnswer": "Add alternative answer"
+  },
+  "export": {
+    "title": "Export XML file",
+    "description": "Your Moodle XML file will be generated and downloaded to your computer. You can then import it directly into Moodle.",
+    "filename": "File name",
+    "download": "Download XML file",
+    "noQuestions": "Add at least one question before exporting.",
+    "success": "File successfully generated!",
+    "saveDialogHint": "A dialog will open to let you choose where to save your file."
+  },
+  "common": {
+    "required": "Required",
+    "optional": "Optional",
+    "yes": "Yes",
+    "no": "No",
+    "add": "Add",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "loading": "Loading…",
+    "error": "An error occurred.",
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "language": "Français"
+  },
+  "footer": {
+    "privacy": "No data transmitted — everything stays on your computer",
+    "privacyLink": "Learn more",
+    "github": "View project on GitHub",
+    "madeFor": "Built for Inalco"
+  },
+  "validation": {
+    "categoryRequired": "Please select or create a category.",
+    "questionTextRequired": "Question text is required.",
+    "questionNameRequired": "Internal title is required.",
+    "atLeastTwoAnswers": "Please add at least two answers.",
+    "oneCorrectAnswer": "At least one answer must have a grade of 100%.",
+    "atLeastTwoPairs": "Please add at least two pairs.",
+    "numericalAnswerRequired": "A numerical answer is required."
+  }
+}

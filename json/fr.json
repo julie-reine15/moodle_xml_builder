@@ -1,0 +1,154 @@
+{
+  "app": {
+    "title": "Créateur de banque de questions Moodle",
+    "subtitle": "Créez votre fichier XML Moodle facilement, sans installation"
+  },
+  "nav": {
+    "categories": "Catégories",
+    "questions": "Questions",
+    "preview": "Aperçu",
+    "export": "Exporter XML"
+  },
+  "privacy": {
+    "badge": "🔒 Vos données restent sur votre ordinateur",
+    "title": "Confidentialité de vos données",
+    "body": "Tout ce que vous saisissez dans cet outil — vos questions, vos réponses, vos catégories — reste uniquement sur votre ordinateur, dans votre navigateur. Aucune donnée n'est envoyée à un serveur, stockée en ligne ou transmise à qui que ce soit. Cet outil fonctionne entièrement en local, comme un logiciel installé sur votre machine.",
+    "close": "Compris"
+  },
+  "categories": {
+    "title": "Catégories de questions",
+    "description": "Organisez vos questions en catégories. Moodle utilisera ces catégories pour classer vos questions dans la banque.",
+    "add": "Ajouter une catégorie",
+    "namePlaceholder": "Nom de la catégorie (ex : Chapitre 1 – Lexique)",
+    "descPlaceholder": "Description facultative",
+    "empty": "Aucune catégorie créée. Commencez par en ajouter une.",
+    "defaultName": "Sans catégorie",
+    "deleteConfirm": "Supprimer cette catégorie ? Les questions associées seront déplacées vers « Sans catégorie ».",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "save": "Enregistrer"
+  },
+  "questions": {
+    "title": "Questions",
+    "add": "Ajouter une question",
+    "type": "Type de question",
+    "category": "Catégorie",
+    "name": "Titre de la question (interne)",
+    "namePlaceholder": "Ex : Q1 – Compréhension vocabulaire",
+    "questionText": "Énoncé de la question",
+    "defaultMark": "Note par défaut",
+    "generalFeedback": "Feedback général (facultatif)",
+    "empty": "Aucune question ajoutée. Cliquez sur « Ajouter une question » pour commencer.",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "duplicate": "Dupliquer",
+    "save": "Enregistrer la question",
+    "cancel": "Annuler",
+    "deleteConfirm": "Supprimer cette question définitivement ?",
+    "types": {
+      "multichoice": "Choix multiple (réponse unique)",
+      "multichoicemulti": "Choix multiple (réponses multiples)",
+      "truefalse": "Vrai / Faux",
+      "shortanswer": "Réponse courte",
+      "essay": "Rédaction libre (essai)",
+      "matching": "Correspondance",
+      "numerical": "Numérique",
+      "calculated": "Calculé",
+      "ddwtos": "Glisser-déposer dans le texte",
+      "gapselect": "Sélectionner les mots manquants",
+      "ordering": "Mise en ordre",
+      "wordselect": "Sélection de mots"
+    }
+  },
+  "multichoice": {
+    "answers": "Réponses",
+    "addAnswer": "Ajouter une réponse",
+    "answerText": "Texte de la réponse",
+    "grade": "Note (%)",
+    "feedback": "Feedback pour cette réponse (facultatif)",
+    "shuffle": "Mélanger les réponses",
+    "single": "Une seule réponse correcte",
+    "correctHint": "Attribuez 100% à la bonne réponse, 0% aux mauvaises."
+  },
+  "truefalse": {
+    "correctAnswer": "Réponse correcte",
+    "true": "Vrai",
+    "false": "Faux",
+    "feedbackTrue": "Feedback si l'étudiant répond Vrai",
+    "feedbackFalse": "Feedback si l'étudiant répond Faux"
+  },
+  "shortanswer": {
+    "answers": "Réponses acceptées",
+    "addAnswer": "Ajouter une réponse acceptée",
+    "answerText": "Réponse acceptée",
+    "grade": "Note (%)",
+    "caseSensitive": "Sensible à la casse",
+    "hint": "Vous pouvez utiliser * comme joker (ex : *bonjour*)"
+  },
+  "essay": {
+    "responseFormat": "Format de réponse attendu",
+    "responseFormats": {
+      "editor": "Éditeur de texte enrichi",
+      "editorfilepicker": "Éditeur + fichiers joints",
+      "plain": "Texte brut",
+      "monospaced": "Police à chasse fixe",
+      "noinline": "Aucun texte en ligne"
+    },
+    "lines": "Nombre de lignes",
+    "attachments": "Pièces jointes autorisées",
+    "graderInfo": "Instructions pour le correcteur (facultatif)"
+  },
+  "matching": {
+    "pairs": "Paires à associer",
+    "addPair": "Ajouter une paire",
+    "question": "Question / Terme",
+    "answer": "Réponse / Définition",
+    "shuffle": "Mélanger les réponses"
+  },
+  "numerical": {
+    "answer": "Réponse numérique correcte",
+    "tolerance": "Tolérance (±)",
+    "unit": "Unité (facultatif)",
+    "addAnswer": "Ajouter une réponse alternative"
+  },
+  "export": {
+    "title": "Exporter le fichier XML",
+    "description": "Votre fichier XML Moodle sera généré et téléchargé sur votre ordinateur. Vous pourrez ensuite l'importer directement dans Moodle.",
+    "filename": "Nom du fichier",
+    "download": "Télécharger le fichier XML",
+    "noQuestions": "Ajoutez au moins une question avant d'exporter.",
+    "success": "Fichier généré avec succès !",
+    "saveDialogHint": "Une fenêtre va s'ouvrir pour choisir où enregistrer votre fichier."
+  },
+  "common": {
+    "required": "Obligatoire",
+    "optional": "Facultatif",
+    "yes": "Oui",
+    "no": "Non",
+    "add": "Ajouter",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "loading": "Chargement…",
+    "error": "Une erreur est survenue.",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet élément ?",
+    "language": "English"
+  },
+  "footer": {
+    "privacy": "Aucune donnée transmise — tout reste sur votre ordinateur",
+    "privacyLink": "En savoir plus",
+    "github": "Voir le projet sur GitHub",
+    "madeFor": "Développé pour l'Inalco"
+  },
+  "validation": {
+    "categoryRequired": "Veuillez sélectionner ou créer une catégorie.",
+    "questionTextRequired": "L'énoncé de la question est obligatoire.",
+    "questionNameRequired": "Le titre interne est obligatoire.",
+    "atLeastTwoAnswers": "Ajoutez au moins deux réponses.",
+    "oneCorrectAnswer": "Au moins une réponse doit avoir une note de 100%.",
+    "atLeastTwoPairs": "Ajoutez au moins deux paires.",
+    "numericalAnswerRequired": "La réponse numérique est obligatoire."
+  }
+}
