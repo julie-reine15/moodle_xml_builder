@@ -35,6 +35,7 @@ Versioning follows the project phases: `0.PHASE.STEP`.
 - Replaced TinyMCE Tiny Cloud CDN (requires API key) with jsDelivr open-source build (no API key, no restrictions)
 - Added privacy checklist strings (`privacy.check1/2/3`) to both locale files
 - Wired privacy checklist DOM population and language-switch refresh in `js/main.js`
+- "En savoir plus / Learn more" in footer reopens the modal
 
 ---
 
