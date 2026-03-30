@@ -8,12 +8,18 @@ const I18n = (() => {
   let translations = {};
 
   /**
+   * Resolve the base URL for locale files regardless of subdirectory depth.
+   * import.meta.url = .../js/i18n.js → go up one level → .../locales/
+   */
+  const localeBase = new URL('../locales/', import.meta.url).href;
+
+  /**
    * Load a locale file and apply translations to the DOM.
    * @param {string} lang - 'fr' or 'en'
    */
   const load = async (lang) => {
     try {
-      const response = await fetch(`locales/${lang}.json`);
+      const response = await fetch(`${localeBase}${lang}.json`);
       if (!response.ok) throw new Error(`Failed to load locale: ${lang}`);
       translations = await response.json();
       currentLang = lang;
@@ -45,15 +51,14 @@ const I18n = (() => {
 
   /**
    * Apply translations to all elements with data-i18n attributes.
-   * data-i18n="key"           → sets textContent
-   * data-i18n-placeholder="key" → sets placeholder attribute
-   * data-i18n-title="key"    → sets title attribute
-   * data-i18n-aria="key"     → sets aria-label attribute
+   * data-i18n="key"              → sets textContent
+   * data-i18n-placeholder="key"  → sets placeholder attribute
+   * data-i18n-title="key"        → sets title attribute
+   * data-i18n-aria="key"         → sets aria-label attribute
    */
   const applyToDOM = () => {
     document.querySelectorAll('[data-i18n]').forEach(el => {
-      const key = el.getAttribute('data-i18n');
-      el.textContent = t(key);
+      el.textContent = t(el.getAttribute('data-i18n'));
     });
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
       el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
@@ -75,7 +80,6 @@ const I18n = (() => {
 
   /**
    * Get the current language code.
-   * @returns {string}
    */
   const getLang = () => currentLang;
 
