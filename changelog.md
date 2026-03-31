@@ -11,6 +11,18 @@ Versioning follows the project phases: `0.PHASE.STEP`.
 
 ---
 
+[0.1.1] — 2026-03-31
+Phase 1 — Step 2: Category manager and question form shell
+Added
+
+js/categories.js — full category CRUD: add, edit, delete with confirmation, localStorage persistence, live question count per category, nav badge update
+js/questions.js — question manager shell: type selector with Phase 2/3 types greyed out as "coming soon", common fields (internal title, category, default mark, general feedback), add/edit/delete/duplicate, localStorage persistence, nav badge update
+js/main.js — exported updateBadge() utility, wired initCategories() and initQuestions() into boot sequence
+
+Changed
+
+js/main.js — boot function is now synchronous (i18n no longer async since locales are embedded)
+
 ## [0.1.0] — 2026-03-30
 
 ### Phase 1 — Step 1: Project scaffold, i18n system, CSS design system

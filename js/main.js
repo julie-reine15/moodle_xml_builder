@@ -1,67 +1,69 @@
 /**
  * main.js — Application entry point
- * Bootstraps the app: i18n, navigation, privacy notice, and section routing
+ * Bootstraps the app: i18n, navigation, privacy notice, section routing,
+ * category manager, and question manager.
  */
 
 import I18n from './i18n.js';
+import { initCategories } from './categories.js';
+import { initQuestions } from './questions.js';
 
 // ─── App State ────────────────────────────────────────────────────────────────
 export const AppState = {
   categories: [],   // { id, name, description }
-  questions: [],    // { id, type, categoryId, name, ... }
+  questions: [],    // { id, type, categoryId, name, defaultMark, generalFeedback, typeData }
   activeSection: 'categories',
+};
+
+// ─── Badge updater ────────────────────────────────────────────────────────────
+export const updateBadge = (section, count) => {
+  const badge = document.getElementById(`badge-${section}`);
+  if (badge) badge.textContent = count;
 };
 
 // ─── Navigation ───────────────────────────────────────────────────────────────
 const initNav = () => {
-  const navLinks = document.querySelectorAll('.nav-link');
-  navLinks.forEach(link => {
+  document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
-      const target = link.getAttribute('data-section');
-      navigateTo(target);
+      navigateTo(link.getAttribute('data-section'));
     });
   });
 };
 
 export const navigateTo = (sectionId) => {
-  // Update nav state
   document.querySelectorAll('.nav-link').forEach(l => {
     l.classList.toggle('active', l.getAttribute('data-section') === sectionId);
   });
-
-  // Show/hide sections
   document.querySelectorAll('.app-section').forEach(s => {
     s.classList.toggle('hidden', s.id !== `section-${sectionId}`);
   });
-
   AppState.activeSection = sectionId;
 };
 
 // ─── Language Toggle ──────────────────────────────────────────────────────────
 const initLangToggle = () => {
   const btn = document.getElementById('btn-lang');
-  if (btn) {
-    btn.addEventListener('click', () => {
-      I18n.toggle();
-      btn.textContent = I18n.t('common.language');
-      // Re-populate checklist items after language switch
-      setTimeout(() => {
-        [1, 2, 3].forEach(i => {
-          const el = document.getElementById(`privacy-check-${i}`);
-          if (el) el.textContent = I18n.t(`privacy.check${i}`);
-        });
-      }, 50);
-    });
-  }
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    I18n.toggle();
+    btn.textContent = I18n.t('common.language');
+    setTimeout(() => {
+      [1, 2, 3].forEach(i => {
+        const el = document.getElementById(`privacy-check-${i}`);
+        if (el) el.textContent = I18n.t(`privacy.check${i}`);
+      });
+    }, 50);
+  });
 };
 
 // ─── Privacy Notice ───────────────────────────────────────────────────────────
 const initPrivacyNotice = () => {
-  const modal = document.getElementById('privacy-modal');
-  const overlay = document.getElementById('privacy-overlay');
+  const modal    = document.getElementById('privacy-modal');
+  const overlay  = document.getElementById('privacy-overlay');
   const closeBtn = document.getElementById('privacy-close');
-  const learnMoreBtn = document.getElementById('privacy-learn-more');
+  const headerBtn = document.getElementById('privacy-learn-more');
+  const footerBtn = document.getElementById('footer-privacy-link');
 
   const openModal = () => {
     modal.removeAttribute('hidden');
@@ -74,31 +76,23 @@ const initPrivacyNotice = () => {
     overlay.setAttribute('hidden', '');
   };
 
-  const footerPrivacyLink = document.getElementById('footer-privacy-link');
+  if (headerBtn) headerBtn.addEventListener('click', openModal);
+  if (footerBtn) footerBtn.addEventListener('click', openModal);
+  if (closeBtn)  closeBtn.addEventListener('click', closeModal);
+  if (overlay)   overlay.addEventListener('click', closeModal);
 
-  if (learnMoreBtn) learnMoreBtn.addEventListener('click', openModal);
-  if (footerPrivacyLink) footerPrivacyLink.addEventListener('click', openModal);
-  if (closeBtn) closeBtn.addEventListener('click', closeModal);
-  if (overlay) overlay.addEventListener('click', closeModal);
+  // Populate checklist
+  [1, 2, 3].forEach(i => {
+    const el = document.getElementById(`privacy-check-${i}`);
+    if (el) el.textContent = I18n.t(`privacy.check${i}`);
+  });
 
-  // Populate checklist items
-  const populateChecklist = () => {
-    [1, 2, 3].forEach(i => {
-      const el = document.getElementById(`privacy-check-${i}`);
-      if (el) el.textContent = I18n.t(`privacy.check${i}`);
-    });
-  };
-  populateChecklist();
-
-  // Keyboard: close on Escape
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
   });
 
-  // Show notice once on first visit
-  const seen = localStorage.getItem('moodle-builder-privacy-seen');
-  if (!seen) {
-    // Slight delay so the page renders first
+  // Auto-show on first visit
+  if (!localStorage.getItem('moodle-builder-privacy-seen')) {
     setTimeout(() => {
       openModal();
       localStorage.setItem('moodle-builder-privacy-seen', '1');
@@ -107,14 +101,15 @@ const initPrivacyNotice = () => {
 };
 
 // ─── Boot ─────────────────────────────────────────────────────────────────────
-const boot = async () => {
-  await I18n.init();
+const boot = () => {
+  I18n.init();
   initNav();
   initLangToggle();
   initPrivacyNotice();
+  initCategories();
+  initQuestions();
   navigateTo('categories');
 
-  // Update lang button label after i18n is ready
   const btn = document.getElementById('btn-lang');
   if (btn) btn.textContent = I18n.t('common.language');
 };

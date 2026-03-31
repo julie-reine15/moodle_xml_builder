@@ -1,0 +1,377 @@
+/**
+ * questions.js — Question manager
+ * Handles the question form shell: type selector, common fields, list rendering.
+ * Type-specific fields are injected by questionForms.js (Step 3).
+ */
+
+import I18n from './i18n.js';
+import { AppState, updateBadge } from './main.js';
+import { getCategoryOptions, getCategories } from './categories.js';
+
+// ─── Constants ────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'moodle-builder-questions';
+
+// Question type definitions — phase controls availability
+const QUESTION_TYPES = [
+  { key: 'multichoice',      phase: 1 },
+  { key: 'multichoicemulti', phase: 1 },
+  { key: 'truefalse',        phase: 1 },
+  { key: 'shortanswer',      phase: 1 },
+  { key: 'essay',            phase: 1 },
+  { key: 'matching',         phase: 2 },
+  { key: 'numerical',        phase: 2 },
+  { key: 'calculated',       phase: 3 },
+  { key: 'ddwtos',           phase: 3 },
+  { key: 'gapselect',        phase: 3 },
+  { key: 'ordering',         phase: 3 },
+  { key: 'wordselect',       phase: 3 },
+];
+
+const CURRENT_PHASE = 1;
+
+// ─── State helpers ────────────────────────────────────────────────────────────
+const save = () => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState.questions));
+};
+
+const load = () => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    AppState.questions = stored ? JSON.parse(stored) : [];
+  } catch {
+    AppState.questions = [];
+  }
+};
+
+const genId = () => `q_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+
+// ─── Form state ───────────────────────────────────────────────────────────────
+let editingId = null;
+
+// ─── DOM refs ─────────────────────────────────────────────────────────────────
+const getEls = () => ({
+  list:        document.getElementById('questions-list'),
+  empty:       document.getElementById('questions-empty'),
+  formCard:    document.getElementById('question-form-card'),
+  formContainer: document.getElementById('question-form-container'),
+  addBtn:      document.getElementById('btn-add-question'),
+});
+
+// ─── Type selector dropdown ───────────────────────────────────────────────────
+const buildTypeOptions = () => {
+  return QUESTION_TYPES.map(({ key, phase }) => {
+    const label = I18n.t(`questions.types.${key}`);
+    const available = phase <= CURRENT_PHASE;
+    const comingSoon = I18n.getLang() === 'fr' ? 'Bientôt disponible' : 'Coming soon';
+    if (available) {
+      return `<option value="${key}">${label}</option>`;
+    } else {
+      return `<option value="${key}" disabled style="color: var(--color-text-muted);">${label} — ${comingSoon}</option>`;
+    }
+  }).join('');
+};
+
+// ─── Form HTML ────────────────────────────────────────────────────────────────
+const buildFormHTML = (q = null) => {
+  const isEdit = q !== null;
+  const selectedType = q ? q.type : 'multichoice';
+  const selectedCat = q ? q.categoryId : '';
+
+  return `
+    <form id="question-form" novalidate>
+      <div class="form-row">
+
+        <div class="form-group">
+          <label class="form-label" for="q-type">
+            ${I18n.t('questions.type')}
+            <span class="required-mark" aria-hidden="true">*</span>
+          </label>
+          <select id="q-type" class="form-select" ${isEdit ? 'disabled' : ''}>
+            ${buildTypeOptions()}
+          </select>
+          ${isEdit ? `<span class="form-hint">${I18n.getLang() === 'fr' ? 'Le type ne peut pas être modifié après création.' : 'Type cannot be changed after creation.'}</span>` : ''}
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="q-category">
+            ${I18n.t('questions.category')}
+            <span class="required-mark" aria-hidden="true">*</span>
+          </label>
+          <select id="q-category" class="form-select">
+            <option value="">${I18n.getLang() === 'fr' ? '— Sélectionner une catégorie —' : '— Select a category —'}</option>
+            ${getCategoryOptions()}
+          </select>
+          <div class="field-error hidden" id="q-category-error" role="alert"></div>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="q-name">
+          ${I18n.t('questions.name')}
+          <span class="required-mark" aria-hidden="true">*</span>
+        </label>
+        <input
+          type="text"
+          id="q-name"
+          class="form-input"
+          placeholder="${I18n.t('questions.namePlaceholder')}"
+          value="${isEdit ? escHtml(q.name) : ''}"
+          autocomplete="off"
+        />
+        <div class="field-error hidden" id="q-name-error" role="alert"></div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="q-default-mark">
+          ${I18n.t('questions.defaultMark')}
+        </label>
+        <input
+          type="number"
+          id="q-default-mark"
+          class="form-input"
+          value="${isEdit ? q.defaultMark : '1'}"
+          min="0"
+          step="0.01"
+          style="max-width: 140px;"
+        />
+      </div>
+
+      <!-- Type-specific fields injected here by questionForms.js (Step 3) -->
+      <div id="q-type-fields" class="q-type-fields">
+        <div class="notice notice-info">
+          <span aria-hidden="true">🔧</span>
+          <span>${I18n.getLang() === 'fr'
+            ? 'Les champs spécifiques au type de question seront disponibles à l'étape suivante du développement.'
+            : 'Type-specific fields will be available in the next development step.'
+          }</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="q-general-feedback">
+          ${I18n.t('questions.generalFeedback')}
+        </label>
+        <textarea
+          id="q-general-feedback"
+          class="form-textarea"
+          placeholder="${I18n.getLang() === 'fr' ? 'Feedback affiché après la réponse (toutes réponses confondues)' : 'Feedback shown after answering (regardless of response)'}"
+          rows="3"
+        >${isEdit ? escHtml(q.generalFeedback || '') : ''}</textarea>
+      </div>
+
+      <hr class="divider" />
+
+      <div style="display: flex; justify-content: flex-end; gap: var(--space-3); flex-wrap: wrap;">
+        <button type="button" class="btn btn-ghost" id="btn-cancel-question">
+          ${I18n.t('questions.cancel')}
+        </button>
+        <button type="submit" class="btn btn-primary">
+          ${I18n.t('questions.save')}
+        </button>
+      </div>
+
+    </form>
+  `;
+};
+
+// ─── Show / hide form ─────────────────────────────────────────────────────────
+const showForm = (q = null) => {
+  editingId = q ? q.id : null;
+  const { formCard, formContainer, addBtn } = getEls();
+
+  formContainer.innerHTML = buildFormHTML(q);
+  formCard.classList.remove('hidden');
+  addBtn.classList.add('hidden');
+
+  // Set selected values
+  const typeSelect = document.getElementById('q-type');
+  const catSelect  = document.getElementById('q-category');
+  if (q) {
+    typeSelect.value = q.type;
+    catSelect.value  = q.categoryId || '';
+  }
+
+  // Wire form events
+  document.getElementById('question-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    submitForm();
+  });
+  document.getElementById('btn-cancel-question').addEventListener('click', hideForm);
+
+  document.getElementById('q-name').focus();
+};
+
+const hideForm = () => {
+  const { formCard, formContainer, addBtn } = getEls();
+  formCard.classList.add('hidden');
+  formContainer.innerHTML = '';
+  addBtn.classList.remove('hidden');
+  editingId = null;
+};
+
+// ─── Submit ───────────────────────────────────────────────────────────────────
+const submitForm = () => {
+  const typeSelect  = document.getElementById('q-type');
+  const catSelect   = document.getElementById('q-category');
+  const nameInput   = document.getElementById('q-name');
+  const markInput   = document.getElementById('q-default-mark');
+  const fbTextarea  = document.getElementById('q-general-feedback');
+
+  let valid = true;
+
+  // Validate name
+  const nameError = document.getElementById('q-name-error');
+  if (!nameInput.value.trim()) {
+    nameError.textContent = I18n.t('validation.questionNameRequired');
+    nameError.classList.remove('hidden');
+    nameInput.classList.add('error');
+    valid = false;
+  } else {
+    nameError.classList.add('hidden');
+    nameInput.classList.remove('error');
+  }
+
+  // Validate category
+  const catError = document.getElementById('q-category-error');
+  if (!catSelect.value) {
+    catError.textContent = I18n.t('validation.categoryRequired');
+    catError.classList.remove('hidden');
+    catSelect.classList.add('error');
+    valid = false;
+  } else {
+    catError.classList.add('hidden');
+    catSelect.classList.remove('error');
+  }
+
+  if (!valid) return;
+
+  const data = {
+    type:            editingId ? AppState.questions.find(q => q.id === editingId).type : typeSelect.value,
+    categoryId:      catSelect.value,
+    name:            nameInput.value.trim(),
+    defaultMark:     parseFloat(markInput.value) || 1,
+    generalFeedback: fbTextarea.value.trim(),
+    // Type-specific data will be added in Step 3
+    typeData:        {},
+  };
+
+  if (editingId) {
+    const idx = AppState.questions.findIndex(q => q.id === editingId);
+    if (idx !== -1) AppState.questions[idx] = { ...AppState.questions[idx], ...data };
+  } else {
+    AppState.questions.push({ id: genId(), ...data });
+  }
+
+  save();
+  hideForm();
+  render();
+};
+
+// ─── Render list ──────────────────────────────────────────────────────────────
+const render = () => {
+  const { list, empty } = getEls();
+
+  list.querySelectorAll('.item-card').forEach(el => el.remove());
+
+  if (AppState.questions.length === 0) {
+    empty.classList.remove('hidden');
+    updateBadge('questions', 0);
+    return;
+  }
+
+  empty.classList.add('hidden');
+  updateBadge('questions', AppState.questions.length);
+
+  AppState.questions.forEach(q => {
+    const cat = AppState.categories.find(c => c.id === q.categoryId);
+    const catName = cat ? cat.name : (I18n.getLang() === 'fr' ? 'Sans catégorie' : 'Uncategorised');
+    const typeLabel = I18n.t(`questions.types.${q.type}`);
+
+    const card = document.createElement('div');
+    card.className = 'item-card';
+    card.setAttribute('role', 'listitem');
+    card.dataset.id = q.id;
+
+    card.innerHTML = `
+      <div class="item-card-body">
+        <div class="item-card-title">${escHtml(q.name)}</div>
+        <div class="item-card-meta">
+          <span class="tag tag-primary">${escHtml(typeLabel)}</span>
+          <span class="tag">${escHtml(catName)}</span>
+          <span>${q.defaultMark} pt${q.defaultMark !== 1 ? 's' : ''}</span>
+        </div>
+      </div>
+      <div class="item-card-actions">
+        <button class="btn btn-ghost btn-sm btn-edit-q" data-id="${q.id}" type="button"
+          aria-label="${I18n.t('common.edit')} ${escHtml(q.name)}">
+          ${iconEdit()}
+          <span>${I18n.t('common.edit')}</span>
+        </button>
+        <button class="btn btn-ghost btn-sm btn-duplicate-q" data-id="${q.id}" type="button"
+          aria-label="${I18n.t('questions.duplicate')} ${escHtml(q.name)}">
+          ${iconDuplicate()}
+        </button>
+        <button class="btn btn-ghost btn-sm btn-delete-q" data-id="${q.id}" type="button"
+          aria-label="${I18n.t('common.delete')} ${escHtml(q.name)}">
+          ${iconDelete()}
+        </button>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  list.querySelectorAll('.btn-edit-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const q = AppState.questions.find(q => q.id === btn.dataset.id);
+      if (q) showForm(q);
+    });
+  });
+
+  list.querySelectorAll('.btn-duplicate-q').forEach(btn => {
+    btn.addEventListener('click', () => duplicateQuestion(btn.dataset.id));
+  });
+
+  list.querySelectorAll('.btn-delete-q').forEach(btn => {
+    btn.addEventListener('click', () => deleteQuestion(btn.dataset.id));
+  });
+};
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+const duplicateQuestion = (id) => {
+  const q = AppState.questions.find(q => q.id === id);
+  if (!q) return;
+  const copy = {
+    ...JSON.parse(JSON.stringify(q)),
+    id: genId(),
+    name: q.name + (I18n.getLang() === 'fr' ? ' (copie)' : ' (copy)'),
+  };
+  AppState.questions.push(copy);
+  save();
+  render();
+};
+
+const deleteQuestion = (id) => {
+  if (!confirm(I18n.t('questions.deleteConfirm'))) return;
+  AppState.questions = AppState.questions.filter(q => q.id !== id);
+  save();
+  render();
+};
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+const escHtml = (str) => String(str)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+const iconEdit = () => `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+const iconDelete = () => `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
+const iconDuplicate = () => `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+export const initQuestions = () => {
+  load();
+  const { addBtn } = getEls();
+  addBtn.addEventListener('click', () => showForm());
+  render();
+};
+
+export const rerenderQuestions = () => render();
