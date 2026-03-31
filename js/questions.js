@@ -56,7 +56,7 @@ const getEls = () => ({
 
 // ─── Type dropdown ────────────────────────────────────────────────────────────
 const buildTypeOptions = () => {
-  const comingSoon = I18n.getLang() === 'fr' ? 'Bientôt disponible' : 'Coming soon';
+  const comingSoon = I18n.t('questions.comingSoon');
   return QUESTION_TYPES.map(({ key, phase }) => {
     const label = I18n.t(`questions.types.${key}`);
     if (phase <= CURRENT_PHASE) {
@@ -82,7 +82,7 @@ const buildFormHTML = (q = null) => {
           <select id="q-type" class="form-select" ${isEdit ? 'disabled' : ''}>
             ${buildTypeOptions()}
           </select>
-          ${isEdit ? `<span class="form-hint">${fr ? 'Le type ne peut pas être modifié après création.' : 'Type cannot be changed after creation.'}</span>` : ''}
+          ${isEdit ? `<span class="form-hint">${fr ? I18n.t('questions.typeLockedHint') : 'Type cannot be changed after creation.'}</span>` : ''}
         </div>
 
         <div class="form-group">
@@ -90,7 +90,7 @@ const buildFormHTML = (q = null) => {
             ${I18n.t('questions.category')} <span class="required-mark">*</span>
           </label>
           <select id="q-category" class="form-select">
-            <option value="">${fr ? '— Sélectionner une catégorie —' : '— Select a category —'}</option>
+            <option value="">${fr ? I18n.t('questions.selectCategory') : '— Select a category —'}</option>
             ${getCategoryOptions()}
           </select>
           <div class="field-error hidden" id="q-category-error" role="alert"></div>
@@ -121,7 +121,7 @@ const buildFormHTML = (q = null) => {
         <div class="notice notice-info" style="margin-bottom:var(--space-5);">
           <span aria-hidden="true">🔧</span>
           <span>${fr
-            ? "Les champs spécifiques au type de question seront disponibles à l'étape suivante."
+            ? I18n.t('questions.typeFieldsNotice')
             : 'Type-specific fields will be available in the next development step.'
           }</span>
         </div>
@@ -132,7 +132,7 @@ const buildFormHTML = (q = null) => {
           ${I18n.t('questions.generalFeedback')}
         </label>
         <textarea id="q-general-feedback" class="form-textarea" rows="3"
-          placeholder="${fr ? 'Feedback affiché après la réponse' : 'Feedback shown after answering'}"
+          placeholder="${fr ? I18n.t('questions.feedbackPlaceholder') : 'Feedback shown after answering'}"
         >${isEdit ? escHtml(q.generalFeedback || '') : ''}</textarea>
       </div>
 
@@ -251,7 +251,7 @@ const render = () => {
 
   AppState.questions.forEach(q => {
     const cat = AppState.categories.find(c => c.id === q.categoryId);
-    const catName = cat ? cat.name : (I18n.getLang() === 'fr' ? 'Sans catégorie' : 'Uncategorised');
+    const catName = cat ? cat.name : (I18n.getLang() === 'fr' ? I18n.t('questions.uncategorised') : 'Uncategorised');
     const typeLabel = I18n.t(`questions.types.${q.type}`);
 
     const card = document.createElement('div');
@@ -300,7 +300,7 @@ const render = () => {
 const duplicateQuestion = (id) => {
   const q = AppState.questions.find(q => q.id === id);
   if (!q) return;
-  const suffix = I18n.getLang() === 'fr' ? ' (copie)' : ' (copy)';
+  const suffix = I18n.getLang() === 'fr' ? I18n.t('questions.copyLabel') : ' (copy)';
   AppState.questions.push({ ...JSON.parse(JSON.stringify(q)), id: genId('q'), name: q.name + suffix });
   save();
   render();
