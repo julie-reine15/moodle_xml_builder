@@ -4,12 +4,12 @@
  */
 
 import I18n from './i18n.js';
-import { AppState, updateBadge } from './main.js';
+import { AppState, updateBadge, genId, escHtml } from './state.js';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'moodle-builder-categories';
 
-// ─── State helpers ────────────────────────────────────────────────────────────
+// ─── Persistence ─────────────────────────────────────────────────────────────
 const save = () => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState.categories));
 };
@@ -23,29 +23,26 @@ const load = () => {
   }
 };
 
-const genId = () => `cat_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
-
 // ─── Form state ───────────────────────────────────────────────────────────────
-let editingId = null; // null = creating new, string = editing existing
+let editingId = null;
 
 // ─── DOM refs ─────────────────────────────────────────────────────────────────
 const getEls = () => ({
-  list:       document.getElementById('categories-list'),
-  empty:      document.getElementById('categories-empty'),
-  formCard:   document.getElementById('category-form-card'),
-  form:       document.getElementById('category-form'),
-  nameInput:  document.getElementById('cat-name'),
-  descInput:  document.getElementById('cat-desc'),
-  nameError:  document.getElementById('cat-name-error'),
-  addBtn:     document.getElementById('btn-add-category'),
-  cancelBtn:  document.getElementById('btn-cancel-category'),
+  list:      document.getElementById('categories-list'),
+  empty:     document.getElementById('categories-empty'),
+  formCard:  document.getElementById('category-form-card'),
+  form:      document.getElementById('category-form'),
+  nameInput: document.getElementById('cat-name'),
+  descInput: document.getElementById('cat-desc'),
+  nameError: document.getElementById('cat-name-error'),
+  addBtn:    document.getElementById('btn-add-category'),
+  cancelBtn: document.getElementById('btn-cancel-category'),
 });
 
 // ─── Render ───────────────────────────────────────────────────────────────────
 const render = () => {
   const { list, empty } = getEls();
 
-  // Remove existing category cards (keep the empty state element)
   list.querySelectorAll('.item-card').forEach(el => el.remove());
 
   if (AppState.categories.length === 0) {
@@ -58,14 +55,12 @@ const render = () => {
   updateBadge('categories', AppState.categories.length);
 
   AppState.categories.forEach(cat => {
+    const questionCount = AppState.questions.filter(q => q.categoryId === cat.id).length;
+
     const card = document.createElement('div');
     card.className = 'item-card';
     card.setAttribute('role', 'listitem');
     card.dataset.id = cat.id;
-
-    const questionCount = (window.AppState || AppState).questions
-      ? AppState.questions.filter(q => q.categoryId === cat.id).length
-      : 0;
 
     card.innerHTML = `
       <div class="item-card-body">
@@ -76,13 +71,11 @@ const render = () => {
         </div>
       </div>
       <div class="item-card-actions">
-        <button class="btn btn-ghost btn-sm btn-edit-cat" data-id="${cat.id}" type="button"
-          aria-label="${I18n.t('common.edit')} ${escHtml(cat.name)}">
+        <button class="btn btn-ghost btn-sm btn-edit-cat" data-id="${cat.id}" type="button">
           ${iconEdit()}
           <span>${I18n.t('common.edit')}</span>
         </button>
-        <button class="btn btn-ghost btn-sm btn-delete-cat" data-id="${cat.id}" type="button"
-          aria-label="${I18n.t('common.delete')} ${escHtml(cat.name)}">
+        <button class="btn btn-ghost btn-sm btn-delete-cat" data-id="${cat.id}" type="button">
           ${iconDelete()}
         </button>
       </div>
@@ -90,7 +83,6 @@ const render = () => {
     list.appendChild(card);
   });
 
-  // Attach card-level listeners
   list.querySelectorAll('.btn-edit-cat').forEach(btn => {
     btn.addEventListener('click', () => startEdit(btn.dataset.id));
   });
@@ -99,7 +91,7 @@ const render = () => {
   });
 };
 
-// ─── Form show/hide ───────────────────────────────────────────────────────────
+// ─── Form show / hide ─────────────────────────────────────────────────────────
 const showForm = (cat = null) => {
   const { formCard, nameInput, descInput, nameError, addBtn } = getEls();
   editingId = cat ? cat.id : null;
@@ -130,12 +122,7 @@ const startEdit = (id) => {
 
 const deleteCategory = (id) => {
   if (!confirm(I18n.t('categories.deleteConfirm'))) return;
-
-  // Reassign questions in this category to uncategorised (empty string)
-  AppState.questions.forEach(q => {
-    if (q.categoryId === id) q.categoryId = '';
-  });
-
+  AppState.questions.forEach(q => { if (q.categoryId === id) q.categoryId = ''; });
   AppState.categories = AppState.categories.filter(c => c.id !== id);
   save();
   render();
@@ -145,7 +132,6 @@ const submitForm = () => {
   const { nameInput, descInput, nameError } = getEls();
   const name = nameInput.value.trim();
 
-  // Validate
   if (!name) {
     nameError.textContent = I18n.t('validation.categoryRequired');
     nameError.classList.remove('hidden');
@@ -154,19 +140,10 @@ const submitForm = () => {
   }
 
   if (editingId) {
-    // Update existing
     const cat = AppState.categories.find(c => c.id === editingId);
-    if (cat) {
-      cat.name = name;
-      cat.description = descInput.value.trim();
-    }
+    if (cat) { cat.name = name; cat.description = descInput.value.trim(); }
   } else {
-    // Create new
-    AppState.categories.push({
-      id: genId(),
-      name,
-      description: descInput.value.trim(),
-    });
+    AppState.categories.push({ id: genId('cat'), name, description: descInput.value.trim() });
   }
 
   save();
@@ -174,20 +151,11 @@ const submitForm = () => {
   render();
 };
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-const escHtml = (str) =>
-  str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-
+// ─── Icons ────────────────────────────────────────────────────────────────────
 const iconEdit = () => `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
-
 const iconDelete = () => `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
 
 // ─── Public API ───────────────────────────────────────────────────────────────
-
-/**
- * Returns all categories as <option> elements for use in the question form.
- * @returns {string} HTML string of <option> elements
- */
 export const getCategoryOptions = () => {
   if (AppState.categories.length === 0) {
     return `<option value="">${I18n.t('categories.empty')}</option>`;
@@ -197,22 +165,11 @@ export const getCategoryOptions = () => {
     .join('');
 };
 
-export const getCategories = () => AppState.categories;
-
-export const rerenderCategories = () => render();
-
-// ─── Init ─────────────────────────────────────────────────────────────────────
 export const initCategories = () => {
   load();
-
   const { addBtn, cancelBtn, form } = getEls();
-
   addBtn.addEventListener('click', () => showForm());
   cancelBtn.addEventListener('click', hideForm);
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    submitForm();
-  });
-
+  form.addEventListener('submit', (e) => { e.preventDefault(); submitForm(); });
   render();
 };

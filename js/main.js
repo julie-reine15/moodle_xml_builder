@@ -1,27 +1,16 @@
 /**
  * main.js — Application entry point
- * Bootstraps the app: i18n, navigation, privacy notice, section routing,
- * category manager, and question manager.
  */
 
 import I18n from './i18n.js';
+import { AppState } from './state.js';
 import { initCategories } from './categories.js';
 import { initQuestions } from './questions.js';
 
-// ─── App State ────────────────────────────────────────────────────────────────
-export const AppState = {
-  categories: [],   // { id, name, description }
-  questions: [],    // { id, type, categoryId, name, defaultMark, generalFeedback, typeData }
-  activeSection: 'categories',
-};
+// Re-export AppState so index.html script tag can access it if needed
+export { AppState };
 
 // ─── Badge updater ────────────────────────────────────────────────────────────
-export const updateBadge = (section, count) => {
-  const badge = document.getElementById(`badge-${section}`);
-  if (badge) badge.textContent = count;
-};
-
-// ─── Navigation ───────────────────────────────────────────────────────────────
 const initNav = () => {
   document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', (e) => {
@@ -31,7 +20,7 @@ const initNav = () => {
   });
 };
 
-export const navigateTo = (sectionId) => {
+const navigateTo = (sectionId) => {
   document.querySelectorAll('.nav-link').forEach(l => {
     l.classList.toggle('active', l.getAttribute('data-section') === sectionId);
   });
@@ -59,9 +48,9 @@ const initLangToggle = () => {
 
 // ─── Privacy Notice ───────────────────────────────────────────────────────────
 const initPrivacyNotice = () => {
-  const modal    = document.getElementById('privacy-modal');
-  const overlay  = document.getElementById('privacy-overlay');
-  const closeBtn = document.getElementById('privacy-close');
+  const modal     = document.getElementById('privacy-modal');
+  const overlay   = document.getElementById('privacy-overlay');
+  const closeBtn  = document.getElementById('privacy-close');
   const headerBtn = document.getElementById('privacy-learn-more');
   const footerBtn = document.getElementById('footer-privacy-link');
 
@@ -70,7 +59,6 @@ const initPrivacyNotice = () => {
     overlay.removeAttribute('hidden');
     closeBtn.focus();
   };
-
   const closeModal = () => {
     modal.setAttribute('hidden', '');
     overlay.setAttribute('hidden', '');
@@ -81,7 +69,6 @@ const initPrivacyNotice = () => {
   if (closeBtn)  closeBtn.addEventListener('click', closeModal);
   if (overlay)   overlay.addEventListener('click', closeModal);
 
-  // Populate checklist
   [1, 2, 3].forEach(i => {
     const el = document.getElementById(`privacy-check-${i}`);
     if (el) el.textContent = I18n.t(`privacy.check${i}`);
@@ -91,7 +78,6 @@ const initPrivacyNotice = () => {
     if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal();
   });
 
-  // Auto-show on first visit
   if (!localStorage.getItem('moodle-builder-privacy-seen')) {
     setTimeout(() => {
       openModal();
