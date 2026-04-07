@@ -1,5 +1,5 @@
 /**
- * main.js — Application entry point
+ * main.js \u2014 Application entry point
  */
 
 import I18n from './i18n.js';
@@ -10,7 +10,7 @@ import { initQuestions } from './questions.js';
 // Re-export AppState so index.html script tag can access it if needed
 export { AppState };
 
-// ─── Badge updater ────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Badge updater \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const initNav = () => {
   document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', (e) => {
@@ -30,7 +30,7 @@ const navigateTo = (sectionId) => {
   AppState.activeSection = sectionId;
 };
 
-// ─── Language Toggle ──────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Language Toggle \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const initLangToggle = () => {
   const btn = document.getElementById('btn-lang');
   if (!btn) return;
@@ -46,7 +46,7 @@ const initLangToggle = () => {
   });
 };
 
-// ─── Privacy Notice ───────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Privacy Notice \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const initPrivacyNotice = () => {
   const modal     = document.getElementById('privacy-modal');
   const overlay   = document.getElementById('privacy-overlay');
@@ -86,7 +86,7 @@ const initPrivacyNotice = () => {
   }
 };
 
-// ─── Boot ─────────────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Boot \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const boot = () => {
   I18n.init();
   initNav();

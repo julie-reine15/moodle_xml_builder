@@ -1,43 +1,43 @@
 /**
- * i18n.js — Bilingual language system (FR / EN)
- * Locales are embedded directly — no fetch, no path dependency, works on any host.
+ * i18n.js \u2014 Bilingual language system (FR / EN)
+ * Locales are embedded directly \u2014 no fetch, no path dependency, works on any host.
  */
 
 const LOCALES = {
   fr: {
     app: {
-      title: "Créateur de banque de questions Moodle",
-      subtitle: "Créez votre fichier XML Moodle facilement, sans installation"
+      title: "Cr\u00e9ateur de banque de questions Moodle",
+      subtitle: "Cr\u00e9ez votre fichier XML Moodle facilement, sans installation"
     },
     nav: {
-      categories: "Catégories",
+      categories: "Cat\u00e9gories",
       questions: "Questions",
-      preview: "Aperçu",
+      preview: "Aper\u00e7u",
       export: "Exporter XML"
     },
     privacy: {
-      badge: "🔒 Vos données restent sur votre ordinateur",
-      title: "Confidentialité de vos données",
-      body: "Tout ce que vous saisissez dans cet outil — vos questions, vos réponses, vos catégories — reste uniquement sur votre ordinateur, dans votre navigateur. Aucune donnée n'est envoyée à un serveur, stockée en ligne ou transmise à qui que ce soit. Cet outil fonctionne entièrement en local, comme un logiciel installé sur votre machine.",
-      check1: "Vos questions et réponses ne quittent jamais votre ordinateur",
-      check2: "Aucun compte, aucune connexion, aucun serveur impliqué",
-      check3: "Le fichier XML est généré et enregistré directement sur votre machine",
+      badge: "\u1f512 Vos donn\u00e9es restent sur votre ordinateur",
+      title: "Confidentialit\u00e9 de vos donn\u00e9es",
+      body: "Tout ce que vous saisissez dans cet outil \u2014 vos questions, vos r\u00e9ponses, vos cat\u00e9gories \u2014 reste uniquement sur votre ordinateur, dans votre navigateur. Aucune donn\u00e9e n'est envoy\u00e9e \u00e0 un serveur, stock\u00e9e en ligne ou transmise \u00e0 qui que ce soit. Cet outil fonctionne enti\u00e8rement en local, comme un logiciel install\u00e9 sur votre machine.",
+      check1: "Vos questions et r\u00e9ponses ne quittent jamais votre ordinateur",
+      check2: "Aucun compte, aucune connexion, aucun serveur impliqu\u00e9",
+      check3: "Le fichier XML est g\u00e9n\u00e9r\u00e9 et enregistr\u00e9 directement sur votre machine",
       close: "Compris"
     },
     categories: {
-      title: "Catégories de questions",
-      deleteBlocked: "Cette catégorie contient {count} question(s). Transférez-les vers une autre catégorie avant de supprimer.",
-      noOtherCategories: "Aucune autre catégorie disponible",
-      transferLabel: "Transférer les questions vers",
-      transferConfirm: "Transférer et supprimer",
-      selectTarget: "-- Sélectionner une catégorie --",
-      description: "Organisez vos questions en catégories. Moodle utilisera ces catégories pour classer vos questions dans la banque.",
-      add: "Ajouter une catégorie",
-      namePlaceholder: "Nom de la catégorie (ex : Chapitre 1 – Lexique)",
+      title: "Cat\u00e9gories de questions",
+      deleteBlocked: "Cette cat\u00e9gorie contient {count} question(s). Transf\u00e9rez-les vers une autre cat\u00e9gorie avant de supprimer.",
+      noOtherCategories: "Aucune autre cat\u00e9gorie disponible",
+      transferLabel: "Transf\u00e9rer les questions vers",
+      transferConfirm: "Transf\u00e9rer et supprimer",
+      selectTarget: "-- S\u00e9lectionner une cat\u00e9gorie --",
+      description: "Organisez vos questions en cat\u00e9gories. Moodle utilisera ces cat\u00e9gories pour classer vos questions dans la banque.",
+      add: "Ajouter une cat\u00e9gorie",
+      namePlaceholder: "Nom de la cat\u00e9gorie (ex : Chapitre 1 \u2013 Lexique)",
       descPlaceholder: "Description facultative",
-      empty: "Aucune catégorie créée. Commencez par en ajouter une.",
-      defaultName: "Sans catégorie",
-      deleteConfirm: "Supprimer cette catégorie ? Les questions associées seront déplacées vers « Sans catégorie ».",
+      empty: "Aucune cat\u00e9gorie cr\u00e9\u00e9e. Commencez par en ajouter une.",
+      defaultName: "Sans cat\u00e9gorie",
+      deleteConfirm: "Supprimer cette cat\u00e9gorie ? Les questions associ\u00e9es seront d\u00e9plac\u00e9es vers \u00ab Sans cat\u00e9gorie \u00bb.",
       edit: "Modifier",
       delete: "Supprimer",
       save: "Enregistrer"
@@ -45,101 +45,101 @@ const LOCALES = {
     questions: {
       title: "Questions",
       add: "Ajouter une question",
-      comingSoon: "Bientôt disponible",
-      typeFieldsNotice: "Les champs spécifiques au type seront disponibles à l’étape suivante.",
-      typeLockedHint: "Le type ne peut pas être modifié après création.",
-      selectCategory: "Sélectionnez une catégorie",
-      feedbackPlaceholder: "Feedback affiché après la réponse",
+      comingSoon: "Bient\u00f4t disponible",
+      typeFieldsNotice: "Les champs sp\u00e9cifiques au type seront disponibles \u00e0 l\u2019\u00e9tape suivante.",
+      typeLockedHint: "Le type ne peut pas \u00eatre modifi\u00e9 apr\u00e8s cr\u00e9ation.",
+      selectCategory: "S\u00e9lectionnez une cat\u00e9gorie",
+      feedbackPlaceholder: "Feedback affich\u00e9 apr\u00e8s la r\u00e9ponse",
       copyLabel: " (copie)",
-      uncategorised: "Sans catégorie",
+      uncategorised: "Sans cat\u00e9gorie",
       type: "Type de question",
-      category: "Catégorie",
+      category: "Cat\u00e9gorie",
       name: "Titre de la question (interne)",
-      namePlaceholder: "Ex : Q1 – Compréhension vocabulaire",
-      questionText: "Énoncé de la question",
-      defaultMark: "Note par défaut",
-      generalFeedback: "Feedback général (facultatif)",
-      empty: "Aucune question ajoutée. Cliquez sur « Ajouter une question » pour commencer.",
+      namePlaceholder: "Ex : Q1 \u2013 Compr\u00e9hension vocabulaire",
+      questionText: "\u00c9nonc\u00e9 de la question",
+      defaultMark: "Note par d\u00e9faut",
+      generalFeedback: "Feedback g\u00e9n\u00e9ral (facultatif)",
+      empty: "Aucune question ajout\u00e9e. Cliquez sur \u00ab Ajouter une question \u00bb pour commencer.",
       edit: "Modifier",
       delete: "Supprimer",
       duplicate: "Dupliquer",
       save: "Enregistrer la question",
       cancel: "Annuler",
-      deleteConfirm: "Supprimer cette question définitivement ?",
+      deleteConfirm: "Supprimer cette question d\u00e9finitivement ?",
       types: {
-        multichoice: "Choix multiple (réponse unique)",
-        multichoicemulti: "Choix multiple (réponses multiples)",
+        multichoice: "Choix multiple (r\u00e9ponse unique)",
+        multichoicemulti: "Choix multiple (r\u00e9ponses multiples)",
         truefalse: "Vrai / Faux",
-        shortanswer: "Réponse courte",
-        essay: "Rédaction libre (essai)",
+        shortanswer: "R\u00e9ponse courte",
+        essay: "R\u00e9daction libre (essai)",
         matching: "Correspondance",
-        numerical: "Numérique",
-        calculated: "Calculé",
-        ddwtos: "Glisser-déposer dans le texte",
-        gapselect: "Sélectionner les mots manquants",
+        numerical: "Num\u00e9rique",
+        calculated: "Calcul\u00e9",
+        ddwtos: "Glisser-d\u00e9poser dans le texte",
+        gapselect: "S\u00e9lectionner les mots manquants",
         ordering: "Mise en ordre",
-        wordselect: "Sélection de mots"
+        wordselect: "S\u00e9lection de mots"
       }
     },
     multichoice: {
-      answers: "Réponses",
-      addAnswer: "Ajouter une réponse",
-      answerText: "Texte de la réponse",
+      answers: "R\u00e9ponses",
+      addAnswer: "Ajouter une r\u00e9ponse",
+      answerText: "Texte de la r\u00e9ponse",
       grade: "Note (%)",
-      feedback: "Feedback pour cette réponse (facultatif)",
-      shuffle: "Mélanger les réponses",
-      single: "Une seule réponse correcte",
-      correctHint: "Attribuez 100% à la bonne réponse, 0% aux mauvaises."
+      feedback: "Feedback pour cette r\u00e9ponse (facultatif)",
+      shuffle: "M\u00e9langer les r\u00e9ponses",
+      single: "Une seule r\u00e9ponse correcte",
+      correctHint: "Attribuez 100% \u00e0 la bonne r\u00e9ponse, 0% aux mauvaises."
     },
     truefalse: {
-      correctAnswer: "Réponse correcte",
+      correctAnswer: "R\u00e9ponse correcte",
       true: "Vrai",
       false: "Faux",
-      feedbackTrue: "Feedback si l'étudiant répond Vrai",
-      feedbackFalse: "Feedback si l'étudiant répond Faux"
+      feedbackTrue: "Feedback si l'\u00e9tudiant r\u00e9pond Vrai",
+      feedbackFalse: "Feedback si l'\u00e9tudiant r\u00e9pond Faux"
     },
     shortanswer: {
-      answers: "Réponses acceptées",
-      addAnswer: "Ajouter une réponse acceptée",
-      answerText: "Réponse acceptée",
+      answers: "R\u00e9ponses accept\u00e9es",
+      addAnswer: "Ajouter une r\u00e9ponse accept\u00e9e",
+      answerText: "R\u00e9ponse accept\u00e9e",
       grade: "Note (%)",
-      caseSensitive: "Sensible à la casse",
+      caseSensitive: "Sensible \u00e0 la casse",
       hint: "Vous pouvez utiliser * comme joker (ex : *bonjour*)"
     },
     essay: {
-      responseFormat: "Format de réponse attendu",
+      responseFormat: "Format de r\u00e9ponse attendu",
       responseFormats: {
-        editor: "Éditeur de texte enrichi",
-        editorfilepicker: "Éditeur + fichiers joints",
+        editor: "\u00c9diteur de texte enrichi",
+        editorfilepicker: "\u00c9diteur + fichiers joints",
         plain: "Texte brut",
-        monospaced: "Police à chasse fixe",
+        monospaced: "Police \u00e0 chasse fixe",
         noinline: "Aucun texte en ligne"
       },
       lines: "Nombre de lignes",
-      attachments: "Pièces jointes autorisées",
+      attachments: "Pi\u00e8ces jointes autoris\u00e9es",
       graderInfo: "Instructions pour le correcteur (facultatif)"
     },
     matching: {
-      pairs: "Paires à associer",
+      pairs: "Paires \u00e0 associer",
       addPair: "Ajouter une paire",
       question: "Question / Terme",
-      answer: "Réponse / Définition",
-      shuffle: "Mélanger les réponses"
+      answer: "R\u00e9ponse / D\u00e9finition",
+      shuffle: "M\u00e9langer les r\u00e9ponses"
     },
     numerical: {
-      answer: "Réponse numérique correcte",
-      tolerance: "Tolérance (±)",
-      unit: "Unité (facultatif)",
-      addAnswer: "Ajouter une réponse alternative"
+      answer: "R\u00e9ponse num\u00e9rique correcte",
+      tolerance: "Tol\u00e9rance (\u00b1)",
+      unit: "Unit\u00e9 (facultatif)",
+      addAnswer: "Ajouter une r\u00e9ponse alternative"
     },
     export: {
       title: "Exporter le fichier XML",
-      description: "Votre fichier XML Moodle sera généré et téléchargé sur votre ordinateur. Vous pourrez ensuite l'importer directement dans Moodle.",
+      description: "Votre fichier XML Moodle sera g\u00e9n\u00e9r\u00e9 et t\u00e9l\u00e9charg\u00e9 sur votre ordinateur. Vous pourrez ensuite l'importer directement dans Moodle.",
       filename: "Nom du fichier",
-      download: "Télécharger le fichier XML",
+      download: "T\u00e9l\u00e9charger le fichier XML",
       noQuestions: "Ajoutez au moins une question avant d'exporter.",
-      success: "Fichier généré avec succès !",
-      saveDialogHint: "Une fenêtre va s'ouvrir pour choisir où enregistrer votre fichier."
+      success: "Fichier g\u00e9n\u00e9r\u00e9 avec succ\u00e8s !",
+      saveDialogHint: "Une fen\u00eatre va s'ouvrir pour choisir o\u00f9 enregistrer votre fichier."
     },
     common: {
       required: "Obligatoire",
@@ -152,32 +152,32 @@ const LOCALES = {
       delete: "Supprimer",
       edit: "Modifier",
       close: "Fermer",
-      loading: "Chargement…",
+      loading: "Chargement\u2026",
       error: "Une erreur est survenue.",
-      confirmDelete: "Êtes-vous sûr de vouloir supprimer cet élément ?",
+      confirmDelete: "\u00cates-vous s\u00fbr de vouloir supprimer cet \u00e9l\u00e9ment ?",
       language: "English"
     },
     footer: {
-      privacy: "Aucune donnée transmise — tout reste sur votre ordinateur",
+      privacy: "Aucune donn\u00e9e transmise \u2014 tout reste sur votre ordinateur",
       privacyLink: "En savoir plus",
       github: "Voir le projet sur GitHub",
-      madeFor: "Développé pour l'Inalco"
+      madeFor: "D\u00e9velopp\u00e9 pour l'Inalco"
     },
     validation: {
-      categoryRequired: "Veuillez sélectionner ou créer une catégorie.",
-      questionTextRequired: "L'énoncé de la question est obligatoire.",
+      categoryRequired: "Veuillez s\u00e9lectionner ou cr\u00e9er une cat\u00e9gorie.",
+      questionTextRequired: "L'\u00e9nonc\u00e9 de la question est obligatoire.",
       questionNameRequired: "Le titre interne est obligatoire.",
-      atLeastTwoAnswers: "Ajoutez au moins deux réponses.",
-      oneCorrectAnswer: "Au moins une réponse doit avoir une note de 100%.",
+      atLeastTwoAnswers: "Ajoutez au moins deux r\u00e9ponses.",
+      oneCorrectAnswer: "Au moins une r\u00e9ponse doit avoir une note de 100%.",
       atLeastTwoPairs: "Ajoutez au moins deux paires.",
-      numericalAnswerRequired: "La réponse numérique est obligatoire."
+      numericalAnswerRequired: "La r\u00e9ponse num\u00e9rique est obligatoire."
     }
   },
 
   en: {
     app: {
       title: "Moodle Question Bank Builder",
-      subtitle: "Create your Moodle XML file easily — no installation required"
+      subtitle: "Create your Moodle XML file easily \u2014 no installation required"
     },
     nav: {
       categories: "Categories",
@@ -186,9 +186,9 @@ const LOCALES = {
       export: "Export XML"
     },
     privacy: {
-      badge: "🔒 Your data stays on your computer",
+      badge: "\u1f512 Your data stays on your computer",
       title: "Your data stays private",
-      body: "Everything you type into this tool — your questions, answers, and categories — stays only on your computer, inside your browser. Nothing is sent to a server, stored online, or shared with anyone. This tool works entirely on your own machine, like software installed locally.",
+      body: "Everything you type into this tool \u2014 your questions, answers, and categories \u2014 stays only on your computer, inside your browser. Nothing is sent to a server, stored online, or shared with anyone. This tool works entirely on your own machine, like software installed locally.",
       check1: "Your questions and answers never leave your computer",
       check2: "No account, no login, no server involved",
       check3: "The XML file is generated and saved directly on your machine",
@@ -203,7 +203,7 @@ const LOCALES = {
       selectTarget: "-- Select a category --",
       description: "Organise your questions into categories. Moodle will use these to sort your questions in the question bank.",
       add: "Add a category",
-      namePlaceholder: "Category name (e.g. Chapter 1 – Vocabulary)",
+      namePlaceholder: "Category name (e.g. Chapter 1 \u2013 Vocabulary)",
       descPlaceholder: "Optional description",
       empty: "No categories yet. Start by adding one.",
       defaultName: "Uncategorised",
@@ -225,7 +225,7 @@ const LOCALES = {
       type: "Question type",
       category: "Category",
       name: "Question title (internal)",
-      namePlaceholder: "e.g. Q1 – Vocabulary comprehension",
+      namePlaceholder: "e.g. Q1 \u2013 Vocabulary comprehension",
       questionText: "Question text",
       defaultMark: "Default mark",
       generalFeedback: "General feedback (optional)",
@@ -298,7 +298,7 @@ const LOCALES = {
     },
     numerical: {
       answer: "Correct numerical answer",
-      tolerance: "Tolerance (±)",
+      tolerance: "Tolerance (\u00b1)",
       unit: "Unit (optional)",
       addAnswer: "Add alternative answer"
     },
@@ -322,13 +322,13 @@ const LOCALES = {
       delete: "Delete",
       edit: "Edit",
       close: "Close",
-      loading: "Loading…",
+      loading: "Loading\u2026",
       error: "An error occurred.",
       confirmDelete: "Are you sure you want to delete this item?",
-      language: "Français"
+      language: "Fran\u00e7ais"
     },
     footer: {
-      privacy: "No data transmitted — everything stays on your computer",
+      privacy: "No data transmitted \u2014 everything stays on your computer",
       privacyLink: "Learn more",
       github: "View project on GitHub",
       madeFor: "Built for Inalco"
@@ -345,7 +345,7 @@ const LOCALES = {
   }
 };
 
-// ─── I18n engine ─────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 I18n engine \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
 const I18n = (() => {
   let currentLang = "fr";

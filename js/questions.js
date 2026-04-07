@@ -1,5 +1,5 @@
 /**
- * questions.js — Question manager
+ * questions.js \u2014 Question manager
  * Handles the question form shell: type selector, common fields, list rendering.
  * Type-specific fields are injected by questionForms.js (Step 3).
  */
@@ -8,7 +8,7 @@ import I18n from './i18n.js';
 import { AppState, updateBadge, genId, escHtml } from './state.js';
 import { getCategoryOptions, rerenderCategories } from './categories.js';
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Constants \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const STORAGE_KEY = 'moodle-builder-questions';
 
 const QUESTION_TYPES = [
@@ -28,7 +28,7 @@ const QUESTION_TYPES = [
 
 const CURRENT_PHASE = 1;
 
-// ─── Persistence ─────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Persistence \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const save = () => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState.questions));
 };
@@ -42,10 +42,10 @@ const load = () => {
   }
 };
 
-// ─── Form state ───────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Form state \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 let editingId = null;
 
-// ─── DOM refs ─────────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 DOM refs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const getEls = () => ({
   list:          document.getElementById('questions-list'),
   empty:         document.getElementById('questions-empty'),
@@ -54,7 +54,7 @@ const getEls = () => ({
   addBtn:        document.getElementById('btn-add-question'),
 });
 
-// ─── Type dropdown ────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Type dropdown \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const buildTypeOptions = () => {
   const comingSoon = I18n.t('questions.comingSoon');
   return QUESTION_TYPES.map(({ key, phase }) => {
@@ -62,11 +62,11 @@ const buildTypeOptions = () => {
     if (phase <= CURRENT_PHASE) {
       return `<option value="${key}">${label}</option>`;
     }
-    return `<option value="${key}" disabled style="color:var(--color-text-muted)">${label} — ${comingSoon}</option>`;
+    return `<option value="${key}" disabled style="color:var(--color-text-muted)">${label} \u2014 ${comingSoon}</option>`;
   }).join('');
 };
 
-// ─── Form HTML ────────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Form HTML \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const buildFormHTML = (q = null) => {
   const isEdit = q !== null;
   const fr = I18n.getLang() === 'fr';
@@ -90,7 +90,7 @@ const buildFormHTML = (q = null) => {
             ${I18n.t('questions.category')} <span class="required-mark">*</span>
           </label>
           <select id="q-category" class="form-select">
-            <option value="">${fr ? I18n.t('questions.selectCategory') : '— Select a category —'}</option>
+            <option value="">${fr ? I18n.t('questions.selectCategory') : '\u2014 Select a category \u2014'}</option>
             ${getCategoryOptions()}
           </select>
           <div class="field-error hidden" id="q-category-error" role="alert"></div>
@@ -119,7 +119,7 @@ const buildFormHTML = (q = null) => {
 
       <div id="q-type-fields">
         <div class="notice notice-info" style="margin-bottom:var(--space-5);">
-          <span aria-hidden="true">🔧</span>
+          <span aria-hidden="true">\u1f527</span>
           <span>${fr
             ? I18n.t('questions.typeFieldsNotice')
             : 'Type-specific fields will be available in the next development step.'
@@ -151,7 +151,7 @@ const buildFormHTML = (q = null) => {
   `;
 };
 
-// ─── Show / hide form ─────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Show / hide form \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const showForm = (q = null) => {
   editingId = q ? q.id : null;
   const { formCard, formContainer, addBtn } = getEls();
@@ -179,7 +179,7 @@ const hideForm = () => {
   editingId = null;
 };
 
-// ─── Submit ───────────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Submit \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const submitForm = () => {
   const typeEl   = document.getElementById('q-type');
   const catEl    = document.getElementById('q-category');
@@ -236,7 +236,7 @@ const submitForm = () => {
   rerenderCategories();
 };
 
-// ─── Render list ──────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Render list \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const render = () => {
   const { list, empty } = getEls();
   list.querySelectorAll('.item-card').forEach(el => el.remove());
@@ -297,7 +297,7 @@ const render = () => {
   });
 };
 
-// ─── Actions ──────────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Actions \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const duplicateQuestion = (id) => {
   const q = AppState.questions.find(q => q.id === id);
   if (!q) return;
@@ -316,12 +316,12 @@ const deleteQuestion = (id) => {
   rerenderCategories();
 };
 
-// ─── Icons ────────────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Icons \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 const iconEdit = () => `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
 const iconDelete = () => `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
 const iconDuplicate = () => `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
 
-// ─── Init ─────────────────────────────────────────────────────────────────────
+// \u2500\u2500\u2500 Init \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 export const initQuestions = () => {
   load();
   const { addBtn } = getEls();
