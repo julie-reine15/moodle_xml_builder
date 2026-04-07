@@ -6,7 +6,7 @@
 
 import I18n from './i18n.js';
 import { AppState, updateBadge, genId, escHtml } from './state.js';
-import { getCategoryOptions } from './categories.js';
+import { getCategoryOptions, rerenderCategories } from './categories.js';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'moodle-builder-questions';
@@ -233,6 +233,7 @@ const submitForm = () => {
   save();
   hideForm();
   render();
+  rerenderCategories();
 };
 
 // ─── Render list ──────────────────────────────────────────────────────────────
@@ -304,6 +305,7 @@ const duplicateQuestion = (id) => {
   AppState.questions.push({ ...JSON.parse(JSON.stringify(q)), id: genId('q'), name: q.name + suffix });
   save();
   render();
+  rerenderCategories();
 };
 
 const deleteQuestion = (id) => {
@@ -311,6 +313,7 @@ const deleteQuestion = (id) => {
   AppState.questions = AppState.questions.filter(q => q.id !== id);
   save();
   render();
+  rerenderCategories();
 };
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
