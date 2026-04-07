@@ -26,6 +26,11 @@ const LOCALES = {
     },
     categories: {
       title: "Catégories de questions",
+      deleteBlocked: "Cette catégorie contient {count} question(s). Transférez-les vers une autre catégorie avant de supprimer.",
+      noOtherCategories: "Aucune autre catégorie disponible",
+      transferLabel: "Transférer les questions vers",
+      transferConfirm: "Transférer et supprimer",
+      selectTarget: "-- Sélectionner une catégorie --",
       description: "Organisez vos questions en catégories. Moodle utilisera ces catégories pour classer vos questions dans la banque.",
       add: "Ajouter une catégorie",
       namePlaceholder: "Nom de la catégorie (ex : Chapitre 1 – Lexique)",
@@ -191,6 +196,11 @@ const LOCALES = {
     },
     categories: {
       title: "Question Categories",
+      deleteBlocked: "This category contains {count} question(s). Transfer them to another category before deleting.",
+      noOtherCategories: "No other categories available",
+      transferLabel: "Transfer questions to",
+      transferConfirm: "Transfer and delete",
+      selectTarget: "-- Select a category --",
       description: "Organise your questions into categories. Moodle will use these to sort your questions in the question bank.",
       add: "Add a category",
       namePlaceholder: "Category name (e.g. Chapter 1 – Vocabulary)",
