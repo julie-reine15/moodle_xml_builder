@@ -16,7 +16,7 @@ const LOCALES = {
       export: "Exporter XML"
     },
     privacy: {
-      badge: "\u1f512 Vos donn\u00e9es restent sur votre ordinateur",
+      badge: "\u{1f512} Vos donn\u00e9es restent sur votre ordinateur",
       title: "Confidentialit\u00e9 de vos donn\u00e9es",
       body: "Tout ce que vous saisissez dans cet outil \u2014 vos questions, vos r\u00e9ponses, vos cat\u00e9gories \u2014 reste uniquement sur votre ordinateur, dans votre navigateur. Aucune donn\u00e9e n'est envoy\u00e9e \u00e0 un serveur, stock\u00e9e en ligne ou transmise \u00e0 qui que ce soit. Cet outil fonctionne enti\u00e8rement en local, comme un logiciel install\u00e9 sur votre machine.",
       check1: "Vos questions et r\u00e9ponses ne quittent jamais votre ordinateur",
@@ -186,7 +186,7 @@ const LOCALES = {
       export: "Export XML"
     },
     privacy: {
-      badge: "\u1f512 Your data stays on your computer",
+      badge: "\u{1f512} Your data stays on your computer",
       title: "Your data stays private",
       body: "Everything you type into this tool \u2014 your questions, answers, and categories \u2014 stays only on your computer, inside your browser. Nothing is sent to a server, stored online, or shared with anyone. This tool works entirely on your own machine, like software installed locally.",
       check1: "Your questions and answers never leave your computer",
@@ -345,7 +345,7 @@ const LOCALES = {
   }
 };
 
-// --- I18n engine -------------------------------------------------------------
+// \u2500\u2500\u2500 I18n engine \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
 
 const I18n = (() => {
   let currentLang = "fr";
