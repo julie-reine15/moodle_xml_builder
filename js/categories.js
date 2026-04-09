@@ -5,11 +5,12 @@
 
 import I18n from './i18n.js';
 import { AppState, updateBadge, genId, escHtml } from './state.js';
+import { rerenderQuestions } from './questions.js';
 
 const STORAGE_KEY = 'moodle-builder-categories';
 const QUESTIONS_KEY = 'moodle-builder-questions';
 
-// \u2500\u2500\u2500 Persistence \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// --- Persistence -------------------------------------------------------------
 const save = () => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(AppState.categories));
 };
@@ -23,15 +24,18 @@ const load = () => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     AppState.categories = stored ? JSON.parse(stored) : [];
+    const storedQ = localStorage.getItem(QUESTIONS_KEY);
+    AppState.questions = storedQ ? JSON.parse(storedQ) : [];
   } catch {
     AppState.categories = [];
+    AppState.questions = [];
   }
 };
 
-// \u2500\u2500\u2500 Form state \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// --- Form state ---------------------------------------------------------------
 let editingId = null;
 
-// \u2500\u2500\u2500 DOM refs \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// --- DOM refs -----------------------------------------------------------------
 const getEls = () => ({
   list:      document.getElementById('categories-list'),
   empty:     document.getElementById('categories-empty'),
@@ -44,7 +48,7 @@ const getEls = () => ({
   cancelBtn: document.getElementById('btn-cancel-category'),
 });
 
-// \u2500\u2500\u2500 Render \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// --- Render -------------------------------------------------------------------
 const render = () => {
   const { list, empty } = getEls();
 
@@ -97,7 +101,7 @@ const render = () => {
   });
 };
 
-// \u2500\u2500\u2500 Delete: check for linked questions first \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// --- Delete: check for linked questions first ---------------------------------
 const handleDelete = (id) => {
   const linkedCount = AppState.questions.filter(q => q.categoryId === id).length;
 
@@ -114,7 +118,7 @@ const handleDelete = (id) => {
   showTransferPrompt(id, linkedCount);
 };
 
-// \u2500\u2500\u2500 Transfer prompt (inline, below the card) \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// --- Transfer prompt (inline, below the card) ---------------------------------
 const showTransferPrompt = (sourceId, count) => {
   // Remove any existing prompt first
   document.querySelectorAll('.transfer-prompt').forEach(el => el.remove());
@@ -183,6 +187,7 @@ const showTransferPrompt = (sourceId, count) => {
 
       prompt.remove();
       render();
+      rerenderQuestions();
 
       // Refresh question badge with updated counts
       updateBadge('questions', AppState.questions.length);
@@ -190,7 +195,7 @@ const showTransferPrompt = (sourceId, count) => {
   }
 };
 
-// \u2500\u2500\u2500 Form show / hide \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// --- Form show / hide ---------------------------------------------------------
 const showForm = (cat = null) => {
   const { formCard, nameInput, descInput, nameError, addBtn } = getEls();
   // Close any open transfer prompt
@@ -215,7 +220,7 @@ const hideForm = () => {
   editingId = null;
 };
 
-// \u2500\u2500\u2500 CRUD \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// --- CRUD ---------------------------------------------------------------------
 const startEdit = (id) => {
   const cat = AppState.categories.find(c => c.id === id);
   if (cat) showForm(cat);
@@ -244,11 +249,11 @@ const submitForm = () => {
   render();
 };
 
-// \u2500\u2500\u2500 Icons \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// --- Icons --------------------------------------------------------------------
 const iconEdit = () => `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
 const iconDelete = () => `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>`;
 
-// \u2500\u2500\u2500 Public API \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500
+// --- Public API ---------------------------------------------------------------
 export const getCategoryOptions = () => {
   if (AppState.categories.length === 0) {
     return `<option value="" disabled>${I18n.t('categories.empty')}</option>`;
